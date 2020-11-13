@@ -1,0 +1,26 @@
+
+language: java
+jdk:
+  - openjdk12
+
+sudo: false
+
+services:
+  - postgresql
+
+before_install:
+  - psql -c 'create database tracker;' -U postgres
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email:
+    recipients:
+      -ataraveski@gmail.com
+    on_success: never
+    on_failure: always
+
+env:
+   global:
+    - CODECOV_TOKEN="485fb4f2-1529-42ae-a0a8-98a250754c14"
