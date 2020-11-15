@@ -40,7 +40,7 @@
                     <% for (Candidate can : (Collection<Candidate>) request.getAttribute("candidates")) { %>
                     <tr>
                         <td>
-                            <a href="<%=request.getContextPath()%>/candidate/edit.jsp?id=<%=can.getId()%>">
+                            <a href="<%=request.getContextPath()%>/candidate/edit.do?id=<%=can.getId()%>">
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
                             <%= can.getName() %>
