@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dream.store.PsqlStore" %>
 <%@ page import="ru.job4j.dream.model.Post" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +28,7 @@
     if (id != null) {
         post = PsqlStore.instOf().findPostById(Integer.valueOf(id));
     }
+    request.setAttribute("post", post);
 %>
 <div class="container pt-3">
     <div class="row">
@@ -39,7 +41,7 @@
                 <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
+                <form action='<c:url value="/posts.do?id=${post.getId()}"/>' method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name">
