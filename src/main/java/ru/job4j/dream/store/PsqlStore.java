@@ -13,10 +13,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class PsqlStore implements Store {
 
     private final BasicDataSource pool = new BasicDataSource();
+    Logger logger = Logger.getLogger(PsqlStore.class.getName());
 
     private PsqlStore() {
         Properties cfg = new Properties();
