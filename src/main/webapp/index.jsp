@@ -22,7 +22,10 @@
 <body>
 <div class="container">
     <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<%=request.getContextPath()%>/login.do">Войти</a>
     </li>
     <div class="row">
         <ul class="nav">

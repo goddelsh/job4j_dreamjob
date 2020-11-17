@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -220,10 +221,10 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public int saveUser(User user) {
-        int result = 0;
+    public User saveUser(User user) {
+        User result = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (login, password, email) VALUES (?, ?, ?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (name, password, email) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
@@ -232,10 +233,11 @@ public class PsqlStore implements Store {
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
-                    result = id.getInt("id");
+                    user.setId(id.getInt("id"));
+                    result = user;
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
@@ -245,9 +247,9 @@ public class PsqlStore implements Store {
     public User getUser(User user) {
         List<User> users = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
         ) {
-            ps.setString(1, user.getName());
+            ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {

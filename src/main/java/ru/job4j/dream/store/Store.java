@@ -4,6 +4,7 @@ import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface Store {
@@ -23,7 +24,7 @@ public interface Store {
 
     int saveImage(String name);
 
-    int saveUser(User user);
+    User saveUser(User user);
 
     User getUser(User user);
 

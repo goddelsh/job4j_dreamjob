@@ -5,9 +5,9 @@ CREATE TABLE post (
 
 CREATE TABLE users (
    id SERIAL PRIMARY KEY,
-   login TEXT,
+   name TEXT,
    password TEXT,
-   email TEXT
+   email TEXT unique
 );
 
 CREATE TABLE candidate (
