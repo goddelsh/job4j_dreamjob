@@ -9,6 +9,7 @@ import java.io.IOException;
 public class PostEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("user", req.getSession().getAttribute("user"));
         req.getRequestDispatcher("/post/edit.jsp").forward(req, resp);
     }
 }
