@@ -56,10 +56,10 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
-    <url-pattern>/upload</url-pattern>
+    <url-pattern>/upload.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
-    <url-pattern>/download</url-pattern>
+    <url-pattern>/download.do</url-pattern>
   </servlet-mapping>
 </web-app>

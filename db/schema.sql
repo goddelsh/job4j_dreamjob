@@ -5,5 +5,11 @@ CREATE TABLE post (
 
 CREATE TABLE candidate (
    id SERIAL PRIMARY KEY,
-   name TEXT
+   name TEXT,
+   photoId INTEGER
+);
+
+CREATE TABLE photos (
+   id SERIAL PRIMARY KEY,
+   filename TEXT
 );

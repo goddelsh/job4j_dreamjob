@@ -4,6 +4,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.store.PsqlStore;
+import ru.job4j.dream.store.Store;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -38,12 +41,20 @@ public class UploadServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File("images");
-            if (!folder.exists()) {
-                folder.mkdir();
-            }
+
             for (FileItem item : items) {
                 if (!item.isFormField()) {
+                    Store store = PsqlStore.instOf();
+                    int photoId = store.saveImage(item.getName());
+                    if (photoId > 0) {
+                        Candidate candidate = store.findCandidateById(Integer.parseInt(req.getParameter("id")));
+                        candidate.setPhotoId(photoId);
+                        store.save(candidate);
+                    }
+                    File folder = new File("images" + File.separator + photoId);
+                    if (!folder.exists()) {
+                        folder.mkdir();
+                    }
                     File file = new File(folder + File.separator + item.getName());
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
@@ -53,6 +64,6 @@ public class UploadServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        doGet(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }

@@ -42,6 +42,12 @@
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
                             <c:out value="${candidate.name}"/>
+                        <tr valign="top">
+                            <td><a href="<c:url value='/download.do?id=${candidate.photoId}'/>">Download</a></td>
+                            <td>
+                                <img src="<c:url value='/download.do?id=${candidate.photoId}'/>" width="100px" height="100px"/>
+                            </td>
+                        </tr>
                         </td>
                     </tr>
                     </c:forEach>

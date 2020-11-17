@@ -24,7 +24,7 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", 0);
     if (id != null) {
         candidate = PsqlStore.instOf().findCandidateById(Integer.valueOf(id));
     }
@@ -47,6 +47,21 @@
                         <input type="text" class="form-control" name="name">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Upload image
+            </div>
+            <div class="card-body">
+                <form action="<c:url value='/upload.do?id=${candidate.getId()}"'/>" method="post" enctype="multipart/form-data">
+                    <div class="checkbox">
+                        <input type="file" name="file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Загрузить</button>
                 </form>
             </div>
         </div>
