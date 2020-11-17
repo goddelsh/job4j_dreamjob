@@ -3,6 +3,7 @@ package ru.job4j.dream.store;
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -216,6 +217,50 @@ public class PsqlStore implements Store {
         }
         return 0;
 
+    }
+
+    @Override
+    public int saveUser(User user) {
+        int result = 0;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (login, password, email) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    result = id.getInt("id");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public User getUser(User user) {
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPassword());
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    users.add(new User(it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("password"),
+                            it.getString("email")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users.size() > 0 ? users.get(0) : null;
     }
 
     private Post create(Post post) {

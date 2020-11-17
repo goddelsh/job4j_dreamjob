@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.util.Collection;
 
@@ -21,5 +22,9 @@ public interface Store {
     String getImage(int id);
 
     int saveImage(String name);
+
+    int saveUser(User user);
+
+    User getUser(User user);
 
 }

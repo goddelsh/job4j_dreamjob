@@ -3,10 +3,17 @@ CREATE TABLE post (
    name TEXT
 );
 
+CREATE TABLE users (
+   id SERIAL PRIMARY KEY,
+   login TEXT,
+   password TEXT,
+   email TEXT
+);
+
 CREATE TABLE candidate (
    id SERIAL PRIMARY KEY,
    name TEXT,
-   photoId INTEGER
+   photoid INTEGER
 );
 
 CREATE TABLE photos (
