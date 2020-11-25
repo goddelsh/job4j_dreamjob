@@ -19,12 +19,37 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+
     <title>Работа мечты</title>
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/job4j_dreamjob_war/cities.do',         /* Куда пойдет запрос */
+        dataType: 'html'    /* Параметры передаваемые в запросе. */
+    }).done(function(data) {
+        let cities = JSON.parse(data);
+        if (cities.length > 0) {
+            cities.forEach( el => addCityToSelect(el.id, el.name));
+        }
+    }).fail(function(err) {
+        alert(err);
+    });
+
+
+    function addCityToSelect(value, name) {
+        let select = document.getElementById("citySelect");
+        let option = document.createElement("option");
+        option.value = value
+        option.text = name;
+        select.add(option);
+    }
+</script>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "", 0);
+    Candidate candidate = new Candidate(0, "", 0, 0);
     if (id != null) {
         candidate = PsqlStore.instOf().findCandidateById(Integer.valueOf(id));
     }
@@ -54,7 +79,7 @@
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
-                Новая кандидат.
+                Новый кандидат.
                 <% } else { %>
                 Редактирование кандидата.
                 <% } %>
@@ -63,7 +88,12 @@
                 <form action='<c:url value="/candidates.do?id=${candidate.getId()}"/>' method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Город</label>
+                        <select id="citySelect" required>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

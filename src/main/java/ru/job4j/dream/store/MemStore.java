@@ -1,10 +1,12 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,9 +28,9 @@ public class MemStore implements Store {
         posts.put(2, new Post(2, "Middle Java Job"));
         posts.put(3, new Post(3, "Senior Java Job"));
 
-        candidates.put(1, new Candidate(1, "Junior Java", 0));
-        candidates.put(2, new Candidate(2, "Middle Java", 0));
-        candidates.put(3, new Candidate(3, "Senior Java", 0));
+        candidates.put(1, new Candidate(1, "Junior Java", 0, 0));
+        candidates.put(2, new Candidate(2, "Middle Java", 0, 0));
+        candidates.put(3, new Candidate(3, "Senior Java", 0, 0));
     }
 
     public static MemStore instOf() {
@@ -75,6 +77,16 @@ public class MemStore implements Store {
 
     @Override
     public User getUser(User user) {
+        return null;
+    }
+
+    @Override
+    public List<City> getCities() {
+        return null;
+    }
+
+    @Override
+    public String getCityById(int id) {
         return null;
     }
 

@@ -1,11 +1,13 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 public interface Store {
     Collection<Post> findAllPosts();
@@ -27,5 +29,9 @@ public interface Store {
     User saveUser(User user);
 
     User getUser(User user);
+
+    List<City> getCities();
+
+    String getCityById(int id);
 
 }

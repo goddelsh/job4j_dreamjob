@@ -20,6 +20,22 @@
     <title>Работа мечты</title>
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+    const citiesMap = new Map();
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/job4j_dreamjob_war/cities.do',         /* Куда пойдет запрос */
+        dataType: 'html'    /* Параметры передаваемые в запросе. */
+    }).done(function(data) {
+        let cities = JSON.parse(data);
+        if (cities.length > 0) {
+            cities.forEach( el => $("label[id="+el.id+"]").html(el.name));
+        }
+    }).fail(function(err) {
+        alert(err);
+    });
+</script>
 <div class="container pt-3">
     <div class="row">
         <ul class="nav">
@@ -59,7 +75,8 @@
                             <a href='<c:url value="/candidate/edit.do?id=${candidate.id}"/>'>
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
-                            <c:out value="${candidate.name}"/>
+                            <c:out value="${candidate.name}"/> <br>
+                            <label id="${candidate.id}"></label>
                         <tr valign="top">
                             <td><a href="<c:url value='/download.do?id=${candidate.photoId}'/>">Download</a></td>
                             <td>

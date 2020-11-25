@@ -1,6 +1,7 @@
 package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
@@ -59,6 +60,16 @@ public class StubStore implements Store {
 
     @Override
     public User getUser(User user) {
+        return null;
+    }
+
+    @Override
+    public List<City> getCities() {
+        return null;
+    }
+
+    @Override
+    public String getCityById(int id) {
         return null;
     }
 }

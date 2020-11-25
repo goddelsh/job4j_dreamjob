@@ -10,7 +10,7 @@ public class PsqlMain {
         for (Post post : store.findAllPosts()) {
             System.out.println(post.getId() + " " + post.getName());
         }
-        store.save(new Candidate(0, "Java Candidate", 0));
+        store.save(new Candidate(0, "Java Candidate", 0, 0));
         for (Candidate candidate : store.findAllCandidates()) {
             System.out.println(candidate.getId() + " " + candidate.getName());
         }
