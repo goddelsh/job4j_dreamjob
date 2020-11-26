@@ -1,6 +1,8 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
@@ -16,13 +18,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Logger;
+
 
 
 public class PsqlStore implements Store {
 
     private final BasicDataSource pool = new BasicDataSource();
-    Logger logger = Logger.getLogger(PsqlStore.class.getName());
+    Logger logger = LoggerFactory.getLogger(PsqlStore.class.getName());
+    private List<Candidate> candidates;
 
     private PsqlStore() {
         Properties cfg = new Properties();
@@ -67,7 +70,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return posts;
     }
@@ -87,7 +90,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return candidates;
     }
@@ -125,7 +128,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
     }
 
@@ -142,7 +145,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return candidate;
     }
@@ -160,7 +163,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return posts.size() > 0 ? posts.get(0) : null;
     }
@@ -181,7 +184,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return candidates.size() > 0 ? candidates.get(0) : null;
     }
@@ -199,7 +202,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return result;
     }
@@ -218,7 +221,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return 0;
 
@@ -242,7 +245,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return result;
     }
@@ -264,7 +267,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return users.size() > 0 ? users.get(0) : null;
     }
@@ -282,7 +285,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return cities;
     }
@@ -301,7 +304,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return !cities.isEmpty() ? cities.get(0).getName() : null;
     }
@@ -318,7 +321,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         return post;
     }
@@ -329,14 +332,13 @@ public class PsqlStore implements Store {
         ) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
-            int row = ps.executeUpdate();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
                     post.setId(id.getInt(1));
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
     }
 }

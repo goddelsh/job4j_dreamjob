@@ -4,6 +4,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.store.PsqlStore;
 import ru.job4j.dream.store.Store;
@@ -20,7 +22,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class UploadServlet extends HttpServlet {
+
+    Logger logger = LoggerFactory.getLogger(UploadServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> images = new ArrayList<>();
@@ -62,7 +68,7 @@ public class UploadServlet extends HttpServlet {
                 }
             }
         } catch (FileUploadException e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
