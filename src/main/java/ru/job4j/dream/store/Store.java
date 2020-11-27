@@ -34,4 +34,6 @@ public interface Store {
 
     String getCityById(int id);
 
+    List<String> getAcceptedHosts();
+
 }

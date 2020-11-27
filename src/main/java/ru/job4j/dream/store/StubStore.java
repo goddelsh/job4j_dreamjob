@@ -72,4 +72,9 @@ public class StubStore implements Store {
     public String getCityById(int id) {
         return null;
     }
+
+    @Override
+    public List<String> getAcceptedHosts() {
+        return null;
+    }
 }

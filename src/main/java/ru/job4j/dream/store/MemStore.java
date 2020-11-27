@@ -90,6 +90,11 @@ public class MemStore implements Store {
         return null;
     }
 
+    @Override
+    public List<String> getAcceptedHosts() {
+        return null;
+    }
+
     public void save(Candidate candidate) {
         if (candidate.getId() == 0 ) {
             candidate.setId(CANDIDATE_ID.incrementAndGet());

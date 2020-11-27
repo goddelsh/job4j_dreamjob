@@ -27,3 +27,9 @@ CREATE TABLE candidate (
    cityid INTEGER references cities(id)
 );
 
+CREATE TABLE accepted_hosts (
+   id SERIAL PRIMARY KEY,
+   url TEXT,
+   status INTEGER
+);
+

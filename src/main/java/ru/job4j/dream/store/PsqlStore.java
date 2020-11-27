@@ -309,6 +309,23 @@ public class PsqlStore implements Store {
         return !cities.isEmpty() ? cities.get(0).getName() : null;
     }
 
+    @Override
+    public List<String> getAcceptedHosts() {
+        List<String> result = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM accepted_hosts WHERE status = 1");
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    result.add(it.getString("url"));
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getLocalizedMessage());
+        }
+        return result;
+    }
+
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
